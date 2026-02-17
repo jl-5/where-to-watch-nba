@@ -71,6 +71,7 @@ const TIME_ZONES = [
   { value: "Pacific/Honolulu", label: "Hawaii Time (HT)", short: "HT" },
   { value: "UTC", label: "UTC", short: "UTC" },
 ];
+const NBA_LOGO_URL = "https://a.espncdn.com/i/teamlogos/leagues/500/nba.png";
 
 export default function HomePage() {
   const [games, setGames] = useState<Game[]>([]);
@@ -184,14 +185,23 @@ export default function HomePage() {
             isReady ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
           }`}
         >
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
-                Where to Watch NBA Games in &apos;25-&apos;26
-              </h1>
-              <p className={`mt-1 text-sm ${subTextClass}`}>
-                National TV schedule browser with live filters, logos, and time zone conversion.
-              </p>
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex items-start gap-3">
+              <Image
+                src={NBA_LOGO_URL}
+                alt="NBA logo"
+                width={44}
+                height={44}
+                className="mt-1 h-11 w-11 shrink-0 rounded-md bg-white/90 p-1"
+              />
+              <div>
+                <h1 className="text-2xl font-black tracking-tight sm:text-3xl xl:text-4xl xl:whitespace-nowrap">
+                  Where to Watch NBA Games in &apos;25-&apos;26
+                </h1>
+                <p className={`mt-1 text-sm ${subTextClass}`}>
+                  National TV schedule browser with live filters, logos, and time zone conversion.
+                </p>
+              </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">

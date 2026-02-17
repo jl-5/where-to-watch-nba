@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "a.espncdn.com",
         pathname: "/i/teamlogos/nba/500/**",
       },
+      {
+        protocol: "https",
+        hostname: "a.espncdn.com",
+        pathname: "/i/teamlogos/leagues/500/**",
+      },
     ],
   },
 };
