@@ -91,6 +91,7 @@ export default function HomePage() {
       });
   }, []);
 
+
   useEffect(() => {
     const frame = requestAnimationFrame(() => setIsReady(true));
     return () => cancelAnimationFrame(frame);
