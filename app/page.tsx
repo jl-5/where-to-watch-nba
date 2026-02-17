@@ -418,7 +418,6 @@ export default function HomePage() {
               >
                 <tr>
                   <th className="p-3 text-left">Date</th>
-                  <th className="p-3 text-left">Day</th>
                   <th className="p-3 text-left">Matchup</th>
                   <th className="p-3 text-left">Time ({selectedZoneLabel})</th>
                   <th className="p-3 text-left">Network</th>
@@ -454,8 +453,7 @@ export default function HomePage() {
                   transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
                 }}
               >
-                <td className="p-3">{g.date}</td>
-                <td className="p-3">{g.day}</td>
+                <td className="p-3">{g.day ? `${g.day} ${g.date}` : g.date}</td>
                 <td className="p-3">
                   <div className="flex items-center gap-2">
                     {team1Logo && (
@@ -488,7 +486,7 @@ export default function HomePage() {
           })}
                 {filteredGames.length === 0 && (
                   <tr>
-                    <td colSpan={5} className={`p-6 text-center text-sm ${subTextClass}`}>
+                    <td colSpan={4} className={`p-6 text-center text-sm ${subTextClass}`}>
                       No games match the current filters.
                     </td>
                   </tr>
