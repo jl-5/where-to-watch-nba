@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Papa from "papaparse";
 import dayjs from "dayjs";
 
@@ -13,6 +14,46 @@ interface Game {
   tv?: string;
   notes?: string;
 }
+
+const TEAM_ABBR: Record<string, string> = {
+  Atlanta: "atl",
+  Boston: "bos",
+  Brooklyn: "bkn",
+  Charlotte: "cha",
+  Chicago: "chi",
+  Cleveland: "cle",
+  Dallas: "dal",
+  Denver: "den",
+  Detroit: "det",
+  "Golden State": "gs",
+  Houston: "hou",
+  Indiana: "ind",
+  "L.A. Lakers": "lal",
+  "LA Clippers": "lac",
+  Memphis: "mem",
+  Miami: "mia",
+  Milwaukee: "mil",
+  Minnesota: "min",
+  "New Orleans": "no",
+  "New York": "ny",
+  "Oklahoma City": "okc",
+  Orlando: "orl",
+  Philadelphia: "phi",
+  Phoenix: "phx",
+  Portland: "por",
+  Sacramento: "sac",
+  "San Antonio": "sa",
+  Toronto: "tor",
+  Utah: "uta",
+  Washington: "wsh",
+};
+
+const getLogoUrl = (team?: string) => {
+  if (!team) return null;
+  const abbr = TEAM_ABBR[team];
+  if (!abbr) return null;
+  return `https://a.espncdn.com/i/teamlogos/nba/500/${abbr}.png`;
+};
 
 export default function HomePage() {
   const [games, setGames] = useState<Game[]>([]);
@@ -47,7 +88,7 @@ export default function HomePage() {
     <main className="p-6 bg-slate-50 min-h-screen text-slate-900 font-sans">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
         <h1 className="text-3xl font-bold mb-2 sm:mb-0 text-center sm:text-left">
-          Where to Watch NBA Games in '25–'26
+          Where to Watch NBA Games in &apos;25-&apos;26
         </h1>
 
         {/* Toggle Switch */}
@@ -82,6 +123,8 @@ export default function HomePage() {
           {visibleGames.map((g, i) => {
             const gameDate = parseDate(g.date);
             const isToday = gameDate?.isSame(today, "day");
+            const team1Logo = getLogoUrl(g.team1);
+            const team2Logo = getLogoUrl(g.team2);
             return (
               <tr
                 key={i}
@@ -95,7 +138,31 @@ export default function HomePage() {
               >
                 <td className="p-2">{g.date}</td>
                 <td className="p-2">{g.day}</td>
-                <td className="p-2">{`${g.team1} vs ${g.team2}`}</td>
+                <td className="p-2">
+                  <div className="flex items-center gap-2">
+                    {team1Logo && (
+                      <Image
+                        src={team1Logo}
+                        alt={`${g.team1} logo`}
+                        width={20}
+                        height={20}
+                        className="h-5 w-5 object-contain"
+                      />
+                    )}
+                    <span>{g.team1}</span>
+                    <span className="text-slate-500">vs</span>
+                    {team2Logo && (
+                      <Image
+                        src={team2Logo}
+                        alt={`${g.team2} logo`}
+                        width={20}
+                        height={20}
+                        className="h-5 w-5 object-contain"
+                      />
+                    )}
+                    <span>{g.team2}</span>
+                  </div>
+                </td>
                 <td className="p-2">{g.et}</td>
                 <td className="p-2">{g.tv}</td>
               </tr>
