@@ -84,6 +84,7 @@ export default function HomePage() {
     if (!date) return false;
     return hidePast ? date.isSame(today, "day") || date.isAfter(today, "day") : true;
   });
+  const todayGames = games.filter((g) => parseDate(g.date)?.isSame(today, "day"));
 
   return (
     <main
@@ -136,6 +137,61 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      <section
+        className={`mb-6 rounded-xl p-4 sm:p-5 transition-colors duration-300 ${
+          darkMode ? "bg-slate-800 border border-slate-700" : "bg-white border border-slate-200"
+        }`}
+      >
+        <h2 className="text-2xl font-bold mb-3">Today&apos;s Games</h2>
+        {todayGames.length === 0 ? (
+          <p className={`text-lg font-semibold ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
+            No nationally-televised games today
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {todayGames.map((g, i) => {
+              const team1Logo = getLogoUrl(g.team1);
+              const team2Logo = getLogoUrl(g.team2);
+              return (
+                <div
+                  key={`${g.date}-${g.team1}-${g.team2}-${i}`}
+                  className={`rounded-lg p-3 sm:p-4 ${
+                    darkMode ? "bg-slate-900 border border-slate-700" : "bg-slate-50 border border-slate-200"
+                  }`}
+                >
+                  <div className="flex flex-wrap items-center gap-2 text-xl sm:text-2xl font-bold">
+                    {team1Logo && (
+                      <Image
+                        src={team1Logo}
+                        alt={`${g.team1} logo`}
+                        width={28}
+                        height={28}
+                        className="h-7 w-7 object-contain"
+                      />
+                    )}
+                    <span>{g.team1}</span>
+                    <span className={darkMode ? "text-slate-400" : "text-slate-500"}>at</span>
+                    {team2Logo && (
+                      <Image
+                        src={team2Logo}
+                        alt={`${g.team2} logo`}
+                        width={28}
+                        height={28}
+                        className="h-7 w-7 object-contain"
+                      />
+                    )}
+                    <span>{g.team2}</span>
+                  </div>
+                  <p className={`mt-1 text-base ${darkMode ? "text-slate-300" : "text-slate-600"}`}>
+                    {g.et} ET on {g.tv}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
 
       <table
         className={`w-full border-collapse text-sm rounded-lg overflow-hidden transition-colors duration-300 ${
