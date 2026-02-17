@@ -44,7 +44,7 @@ const TEAM_ABBR: Record<string, string> = {
   Sacramento: "sac",
   "San Antonio": "sa",
   Toronto: "tor",
-  Utah: "uta",
+  Utah: "utah",
   Washington: "wsh",
 };
 
