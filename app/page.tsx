@@ -58,6 +58,7 @@ const getLogoUrl = (team?: string) => {
 export default function HomePage() {
   const [games, setGames] = useState<Game[]>([]);
   const [hidePast, setHidePast] = useState(true); // default ON
+  const [darkMode, setDarkMode] = useState(false); // default OFF
   const today = dayjs();
 
   useEffect(() => {
@@ -85,32 +86,63 @@ export default function HomePage() {
   });
 
   return (
-    <main className="p-6 bg-slate-50 min-h-screen text-slate-900 font-sans">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+    <main
+      className={`p-6 min-h-screen font-sans transition-colors duration-300 ${
+        darkMode ? "bg-slate-900 text-slate-100" : "bg-slate-50 text-slate-900"
+      }`}
+    >
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
         <h1 className="text-3xl font-bold mb-2 sm:mb-0 text-center sm:text-left">
           Where to Watch NBA Games in &apos;25-&apos;26
         </h1>
 
-        {/* Toggle Switch */}
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-slate-600">Hide previous dates</span>
-          <button
-            onClick={() => setHidePast((prev) => !prev)}
-            className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
-              hidePast ? "bg-sky-500" : "bg-slate-300"
-            }`}
-          >
-            <span
-              className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 ${
-                hidePast ? "translate-x-6" : "translate-x-0"
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex items-center gap-3">
+            <span className={`text-sm ${darkMode ? "text-slate-300" : "text-slate-600"}`}>
+              Dark mode
+            </span>
+            <button
+              onClick={() => setDarkMode((prev) => !prev)}
+              className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                darkMode ? "bg-sky-500" : "bg-slate-300"
               }`}
-            />
-          </button>
+              aria-label="Toggle dark mode"
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 ${
+                  darkMode ? "translate-x-6" : "translate-x-0"
+                }`}
+              />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className={`text-sm ${darkMode ? "text-slate-300" : "text-slate-600"}`}>
+              Hide previous dates
+            </span>
+            <button
+              onClick={() => setHidePast((prev) => !prev)}
+              className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                hidePast ? "bg-sky-500" : "bg-slate-300"
+              }`}
+              aria-label="Toggle hide previous dates"
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 ${
+                  hidePast ? "translate-x-6" : "translate-x-0"
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </div>
 
-      <table className="w-full border-collapse text-sm shadow-sm rounded-lg overflow-hidden">
-        <thead className="bg-slate-200 text-slate-700">
+      <table
+        className={`w-full border-collapse text-sm rounded-lg overflow-hidden transition-colors duration-300 ${
+          darkMode ? "shadow-lg shadow-slate-950/30" : "shadow-sm"
+        }`}
+      >
+        <thead className={darkMode ? "bg-slate-800 text-slate-200" : "bg-slate-200 text-slate-700"}>
           <tr>
             <th className="p-2">Date</th>
             <th className="p-2">Day</th>
@@ -130,9 +162,15 @@ export default function HomePage() {
                 key={i}
                 className={
                   isToday
-                    ? "bg-sky-100 text-sky-900 font-semibold"
+                    ? darkMode
+                      ? "bg-sky-900/40 text-sky-200 font-semibold"
+                      : "bg-sky-100 text-sky-900 font-semibold"
                     : i % 2 === 0
-                    ? "bg-white"
+                    ? darkMode
+                      ? "bg-slate-900"
+                      : "bg-white"
+                    : darkMode
+                    ? "bg-slate-800"
                     : "bg-slate-100"
                 }
               >
@@ -150,7 +188,7 @@ export default function HomePage() {
                       />
                     )}
                     <span>{g.team1}</span>
-                    <span className="text-slate-500">vs</span>
+                    <span className={darkMode ? "text-slate-400" : "text-slate-500"}>at</span>
                     {team2Logo && (
                       <Image
                         src={team2Logo}
