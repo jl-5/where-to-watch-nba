@@ -44,7 +44,7 @@ export default function HomePage() {
   });
 
   return (
-    <main className="p-6 bg-gray-900 min-h-screen text-white font-sans">
+    <main className="p-6 bg-slate-50 min-h-screen text-slate-900 font-sans">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
         <h1 className="text-3xl font-bold mb-2 sm:mb-0 text-center sm:text-left">
           Where to Watch NBA Games in '25–'26
@@ -52,11 +52,11 @@ export default function HomePage() {
 
         {/* Toggle Switch */}
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-300">Hide previous dates</span>
+          <span className="text-sm text-slate-600">Hide previous dates</span>
           <button
             onClick={() => setHidePast((prev) => !prev)}
             className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
-              hidePast ? "bg-yellow-400" : "bg-gray-600"
+              hidePast ? "bg-sky-500" : "bg-slate-300"
             }`}
           >
             <span
@@ -68,8 +68,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      <table className="w-full border-collapse text-sm">
-        <thead className="bg-gray-800 text-gray-300">
+      <table className="w-full border-collapse text-sm shadow-sm rounded-lg overflow-hidden">
+        <thead className="bg-slate-200 text-slate-700">
           <tr>
             <th className="p-2">Date</th>
             <th className="p-2">Day</th>
@@ -87,10 +87,10 @@ export default function HomePage() {
                 key={i}
                 className={
                   isToday
-                    ? "bg-yellow-200 text-black font-semibold"
+                    ? "bg-sky-100 text-sky-900 font-semibold"
                     : i % 2 === 0
-                    ? "bg-gray-800"
-                    : "bg-gray-700"
+                    ? "bg-white"
+                    : "bg-slate-100"
                 }
               >
                 <td className="p-2">{g.date}</td>
