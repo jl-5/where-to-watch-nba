@@ -86,7 +86,7 @@ export default function HomePage() {
     fetch("/nba_2025_26_national_tv_schedule.csv")
       .then((res) => res.text())
       .then((text) => {
-        const parsed = Papa.parse<Game>(text, { header: true }).data;
+        const parsed = Papa.parse(text, { header: true }).data as Game[];
         setGames(parsed);
       });
   }, []);
