@@ -72,6 +72,11 @@ const TIME_ZONES = [
   { value: "UTC", label: "UTC", short: "UTC" },
 ];
 const NBA_LOGO_URL = "https://a.espncdn.com/i/teamlogos/leagues/500/nba.png";
+const getGameNetworks = (tv?: string) =>
+  tv
+    ?.split("/")
+    .map((network) => network.trim())
+    .filter(Boolean) ?? [];
 
 export default function HomePage() {
   const [games, setGames] = useState<Game[]>([]);
@@ -137,7 +142,7 @@ export default function HomePage() {
     )
   ).sort((a, b) => a.localeCompare(b));
   const networkOptions = Array.from(
-    new Set(games.map((g) => g.tv).filter((network): network is string => Boolean(network)))
+    new Set(games.flatMap((g) => getGameNetworks(g.tv)))
   ).sort((a, b) => a.localeCompare(b));
   const filteredGames = visibleGames.filter((g) => {
     const normalizedTeamFilter = teamFilter.trim().toLowerCase();
@@ -146,12 +151,15 @@ export default function HomePage() {
       normalizedTeamFilter === "all teams" ||
       g.team1?.toLowerCase().includes(normalizedTeamFilter) ||
       g.team2?.toLowerCase().includes(normalizedTeamFilter);
-    const matchesNetwork = networkFilter === "All" || g.tv === networkFilter;
+    const matchesNetwork =
+      networkFilter === "All" || getGameNetworks(g.tv).includes(networkFilter);
     return matchesTeam && matchesNetwork;
   });
   const selectedZoneLabel = TIME_ZONES.find((zone) => zone.value === selectedTimeZone)?.short ?? "ET";
   const teamSelectValue =
     teamFilter === "All teams" || teamOptions.includes(teamFilter) ? teamFilter : "All teams";
+  const networkSelectValue =
+    networkFilter === "All" || networkOptions.includes(networkFilter) ? networkFilter : "All";
   const panelClass = darkMode
     ? "rounded-2xl border border-slate-700/80 bg-slate-800/80 shadow-xl shadow-slate-950/20 backdrop-blur-sm"
     : "rounded-2xl border border-slate-200 bg-white/90 shadow-lg shadow-slate-300/30 backdrop-blur-sm";
@@ -377,7 +385,7 @@ export default function HomePage() {
             </label>
             <select
               id="network-filter"
-              value={networkFilter}
+              value={networkSelectValue}
               onChange={(e) => setNetworkFilter(e.target.value)}
               className={inputClass}
             >
